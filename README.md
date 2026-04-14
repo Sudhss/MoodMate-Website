@@ -1,2 +1,2 @@
 # MoodMate-Website
-Offline AI Therapist Chatbot built with Llama3, Flask &amp; React
+<img width="1916" height="840" alt="image" src="https://github.com/user-attachments/assets/f80f24b7-ea4e-48f6-ad0c-faebecbbdbe2" />
