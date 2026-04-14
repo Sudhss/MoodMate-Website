@@ -1,945 +1,1617 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MoodMate AI — Your Emotionally Intelligent Companion</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Syne:wght@400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoodMate AI — Your Emotionally Intelligent Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Syne:wght@400;500;600&family=JetBrains+Mono:wght@300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* ── Reset & Base ─────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #f5f2ed;
+      --paper: #faf8f5;
+      --white: #ffffff;
+      --ink: #1a1814;
+      --ink2: #3d3a35;
+      --ink3: #6b6760;
+      --ink4: #9e9a95;
+      --rule: rgba(26, 24, 20, 0.1);
+      --rule2: rgba(26, 24, 20, 0.06);
+      --warm: #c4603a;
+      --warm2: #d4724c;
+      --warm-dim: rgba(196, 96, 58, 0.08);
+      --warm-b: rgba(196, 96, 58, 0.2);
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Syne', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --r: 12px;
+    }
 
-:root {
-  --cream:    #f5f2ed;
-  --paper:    #faf8f5;
-  --white:    #ffffff;
-  --ink:      #1a1814;
-  --ink2:     #3d3a35;
-  --ink3:     #6b6760;
-  --ink4:     #9e9a95;
-  --rule:     rgba(26,24,20,0.1);
-  --rule2:    rgba(26,24,20,0.06);
-  --warm:     #c4603a;
-  --warm2:    #d4724c;
-  --warm-dim: rgba(196,96,58,0.08);
-  --warm-b:   rgba(196,96,58,0.2);
-  --serif:    'Cormorant Garamond', Georgia, serif;
-  --sans:     'Syne', sans-serif;
-  --mono:     'JetBrains Mono', monospace;
-  --r:        12px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
 
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-thumb { background: var(--ink4); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--ink4);
+    }
 
-/* ── NAV ─────────────────────────────────────────────────────── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px; height: 60px;
-  background: rgba(250,248,245,0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--rule);
-}
-.nav-wordmark {
-  font-family: var(--serif);
-  font-size: 19px;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  color: var(--ink);
-  text-decoration: none;
-}
-.nav-wordmark span { color: var(--warm); font-style: italic; }
-.nav-links { display: flex; gap: 32px; list-style: none; }
-.nav-links a {
-  font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--ink3);
-  text-decoration: none; transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--ink); }
-.nav-visit {
-  font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 8px 20px;
-  border: 1px solid var(--ink);
-  border-radius: 2px;
-  color: var(--ink); text-decoration: none;
-  transition: all 0.2s; cursor: pointer; background: none;
-  font-family: var(--sans);
-}
-.nav-visit:hover { background: var(--ink); color: var(--paper); }
+    /* ── NAV ─────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 60px;
+      background: rgba(250, 248, 245, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
+    }
 
-/* ── HERO ────────────────────────────────────────────────────── */
-#hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  padding: 100px 0 0;
-  position: relative;
-  overflow: hidden;
-}
+    .nav-wordmark {
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      text-decoration: none;
+    }
 
-.hero-left {
-  padding: 80px 0 80px 80px;
-  position: relative; z-index: 2;
-}
+    .nav-wordmark span {
+      color: var(--warm);
+      font-style: italic;
+    }
 
-.hero-kicker {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-bottom: 40px;
-  animation: fadeUp 0.9s ease both;
-}
-.kicker-line {
-  width: 32px; height: 1px; background: var(--warm);
-}
-.kicker-text {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--warm);
-}
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
 
-.hero-heading {
-  font-family: var(--serif);
-  font-size: clamp(56px, 6vw, 88px);
-  font-weight: 300;
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  margin-bottom: 32px;
-  animation: fadeUp 0.9s ease 0.1s both;
-}
-.hero-heading em {
-  font-style: italic;
-  font-weight: 300;
-  color: var(--warm);
-}
-.hero-heading .line2 { padding-left: 48px; }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
 
-.hero-desc {
-  font-family: var(--serif);
-  font-size: 21px;
-  font-weight: 300;
-  line-height: 1.6;
-  color: var(--ink3);
-  max-width: 440px;
-  margin-bottom: 48px;
-  animation: fadeUp 0.9s ease 0.2s both;
-}
+    .nav-links a:hover {
+      color: var(--ink);
+    }
 
-.hero-actions {
-  display: flex; align-items: center; gap: 20px;
-  animation: fadeUp 0.9s ease 0.3s both;
-}
-.btn-primary {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--ink); color: var(--paper);
-  padding: 14px 32px; border-radius: 2px;
-  font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
-  text-transform: uppercase; text-decoration: none;
-  transition: all 0.25s; border: 1px solid var(--ink);
-  cursor: pointer; font-family: var(--sans);
-}
-.btn-primary:hover { background: var(--warm); border-color: var(--warm); }
-.btn-ghost-link {
-  font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--ink3);
-  text-decoration: none;
-  display: flex; align-items: center; gap: 8px;
-  transition: color 0.2s;
-}
-.btn-ghost-link:hover { color: var(--ink); }
-.btn-ghost-link::after {
-  content: '';
-  display: block; width: 20px; height: 1px;
-  background: currentColor;
-  transition: width 0.25s;
-}
-.btn-ghost-link:hover::after { width: 32px; }
+    .nav-visit {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border: 1px solid var(--ink);
+      border-radius: 2px;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      background: none;
+      font-family: var(--sans);
+    }
 
-/* ── HERO VISUAL ─────────────────────────────────────────────── */
-.hero-right {
-  height: 100vh;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-  padding: 80px 48px 80px 24px;
-  animation: fadeIn 1.2s ease 0.4s both;
-}
+    .nav-visit:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
 
-.chat-mockup {
-  width: 100%; max-width: 380px;
-  background: var(--white);
-  border: 1px solid var(--rule);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.03), 0 20px 60px rgba(0,0,0,0.08), 0 40px 100px rgba(0,0,0,0.05);
-  position: relative; z-index: 2;
-}
-.chat-topbar {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--rule2);
-  display: flex; align-items: center; gap: 12px;
-  background: var(--paper);
-}
-.chat-mode-badge {
-  font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 3px 10px;
-  background: var(--warm-dim);
-  color: var(--warm);
-  border: 1px solid var(--warm-b);
-  border-radius: 20px;
-}
-.chat-mode-name {
-  font-size: 13px; font-weight: 600; color: var(--ink); flex: 1;
-}
-.chat-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-.msg {
-  display: flex; flex-direction: column; max-width: 78%;
-  animation: slideMsg 0.5s ease both;
-}
-.msg.user { align-self: flex-end; align-items: flex-end; }
-.msg.ai   { align-self: flex-start; }
-.msg-bubble {
-  padding: 11px 15px;
-  border-radius: 16px;
-  font-size: 13px; line-height: 1.5;
-}
-.msg.ai   .msg-bubble { background: var(--cream); color: var(--ink); border-radius: 4px 16px 16px 16px; }
-.msg.user .msg-bubble { background: var(--ink); color: var(--paper); border-radius: 16px 4px 16px 16px; }
-.msg-time { font-size: 10px; color: var(--ink4); margin-top: 4px; }
-.chat-input-bar {
-  padding: 14px 16px;
-  border-top: 1px solid var(--rule2);
-  display: flex; align-items: center; gap: 10px;
-}
-.chat-input-fake {
-  flex: 1; height: 36px; border-radius: 8px;
-  background: var(--cream);
-  display: flex; align-items: center; padding: 0 12px;
-  font-size: 12px; color: var(--ink4);
-}
-.chat-send-btn {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: var(--ink);
-  display: flex; align-items: center; justify-content: center;
-}
-.chat-send-btn svg { stroke: var(--paper); }
+    /* ── HERO ────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 100px 0 0;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* floating accents behind mockup */
-.hero-accent-1 {
-  position: absolute; top: 15%; right: 0;
-  width: 260px; height: 260px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(196,96,58,0.09) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-accent-2 {
-  position: absolute; bottom: 20%; left: -40px;
-  width: 180px; height: 180px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(196,96,58,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-bg-number {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  font-family: var(--serif); font-size: 320px; font-weight: 300;
-  color: rgba(26,24,20,0.022); line-height: 1; pointer-events: none;
-  user-select: none; z-index: 0;
-}
+    .hero-left {
+      padding: 80px 0 80px 80px;
+      position: relative;
+      z-index: 2;
+    }
 
-/* ── DIVIDER ─────────────────────────────────────────────────── */
-.divider-row {
-  display: flex; align-items: center; gap: 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  overflow: hidden;
-}
-.divider-stat {
-  flex: 1; padding: 28px 0;
-  text-align: center;
-  border-right: 1px solid var(--rule);
-}
-.divider-stat:last-child { border-right: none; }
-.stat-num {
-  font-family: var(--serif); font-size: 42px; font-weight: 300;
-  color: var(--ink); letter-spacing: -0.03em; display: block; line-height: 1;
-}
-.stat-num em { font-style: italic; color: var(--warm); }
-.stat-label {
-  display: block; font-size: 11px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink4);
-  margin-top: 6px;
-}
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.9s ease both;
+    }
 
-/* ── MODES ───────────────────────────────────────────────────── */
-#modes { padding: 120px 80px; }
-.modes-header {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end;
-  margin-bottom: 72px;
-}
-.modes-label {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--warm); margin-bottom: 16px;
-}
-.modes-title {
-  font-family: var(--serif); font-size: clamp(38px, 4vw, 58px);
-  font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; color: var(--ink);
-}
-.modes-title em { font-style: italic; color: var(--ink3); }
-.modes-desc {
-  font-family: var(--serif); font-size: 19px; font-weight: 300;
-  color: var(--ink3); line-height: 1.65; align-self: center;
-}
-.modes-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-  background: var(--rule); border: 1px solid var(--rule);
-}
-.mode-card {
-  background: var(--paper); padding: 40px 32px;
-  transition: background 0.25s;
-  cursor: default;
-}
-.mode-card:hover { background: var(--white); }
-.mode-index {
-  font-family: var(--mono); font-size: 11px; color: var(--ink4);
-  margin-bottom: 24px; letter-spacing: 0.06em;
-}
-.mode-name {
-  font-family: var(--serif); font-size: 26px; font-weight: 300;
-  color: var(--ink); margin-bottom: 14px; letter-spacing: -0.01em;
-}
-.mode-desc {
-  font-size: 14px; color: var(--ink3); line-height: 1.6; font-weight: 400;
-}
-.mode-sample {
-  margin-top: 20px; padding: 14px 16px;
-  background: var(--cream); border-radius: 8px;
-  font-family: var(--serif); font-size: 15px; font-style: italic;
-  color: var(--ink2); line-height: 1.5;
-  border-left: 2px solid var(--warm);
-}
+    .kicker-line {
+      width: 32px;
+      height: 1px;
+      background: var(--warm);
+    }
 
-/* ── HOW IT WORKS ────────────────────────────────────────────── */
-#how {
-  padding: 120px 80px;
-  background: var(--cream);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-.how-inner { max-width: 1100px; margin: 0 auto; }
-.how-top {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 80px;
-}
-.how-title {
-  font-family: var(--serif); font-size: clamp(36px, 4vw, 56px);
-  font-weight: 300; letter-spacing: -0.02em; color: var(--ink);
-}
-.how-title em { font-style: italic; color: var(--warm); }
-.how-note {
-  font-family: var(--serif); font-size: 17px; font-weight: 300;
-  color: var(--ink3); max-width: 320px; line-height: 1.6; text-align: right;
-}
-.how-steps { display: flex; flex-direction: column; }
-.how-step {
-  display: grid; grid-template-columns: 80px 1fr;
-  gap: 0; padding: 32px 0;
-  border-top: 1px solid var(--rule);
-  align-items: start;
-}
-.how-step:last-child { border-bottom: 1px solid var(--rule); }
-.step-n {
-  font-family: var(--serif); font-size: 48px; font-weight: 300;
-  color: rgba(26,24,20,0.12); line-height: 1; padding-top: 4px;
-}
-.step-body { padding: 4px 0 4px 32px; }
-.step-title {
-  font-size: 15px; font-weight: 600; color: var(--ink);
-  letter-spacing: -0.01em; margin-bottom: 8px;
-}
-.step-desc {
-  font-family: var(--serif); font-size: 18px; font-weight: 300;
-  color: var(--ink3); line-height: 1.6;
-}
-.step-tag {
-  display: inline-block; margin-top: 10px;
-  font-family: var(--mono); font-size: 10px;
-  color: var(--warm); background: var(--warm-dim);
-  border: 1px solid var(--warm-b); border-radius: 3px;
-  padding: 2px 8px; letter-spacing: 0.06em;
-}
+    .kicker-text {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--warm);
+    }
 
-/* ── TECH STACK ──────────────────────────────────────────────── */
-#tech { padding: 120px 80px; }
-.tech-inner { max-width: 1100px; margin: 0 auto; }
-.tech-header { margin-bottom: 64px; }
-.tech-header-top {
-  display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 8px;
-}
-.tech-title {
-  font-family: var(--serif); font-size: clamp(36px, 4vw, 56px);
-  font-weight: 300; letter-spacing: -0.02em; color: var(--ink);
-}
-.tech-title em { font-style: italic; color: var(--warm); }
-.tech-subtitle {
-  font-family: var(--serif); font-size: 18px; font-weight: 300;
-  color: var(--ink3); max-width: 380px; text-align: right;
-}
-.tech-rule { width: 100%; height: 1px; background: var(--rule); }
-.tech-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
-  border: 1px solid var(--rule); margin-top: 40px;
-}
-.tech-card {
-  padding: 36px 32px;
-  border-right: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  transition: background 0.2s;
-}
-.tech-card:hover { background: var(--cream); }
-.tech-card:nth-child(3n) { border-right: none; }
-.tech-card:nth-last-child(-n+3) { border-bottom: none; }
-.tech-card-label {
-  font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--ink4); margin-bottom: 12px;
-}
-.tech-card-name {
-  font-family: var(--serif); font-size: 24px; font-weight: 300;
-  color: var(--ink); margin-bottom: 10px;
-}
-.tech-card-desc {
-  font-size: 14px; color: var(--ink3); line-height: 1.6;
-}
-.tech-card-tag {
-  margin-top: 14px; font-family: var(--mono); font-size: 10px;
-  color: var(--ink4); display: block;
-}
+    .hero-heading {
+      font-family: var(--serif);
+      font-size: clamp(56px, 6vw, 88px);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 32px;
+      animation: fadeUp 0.9s ease 0.1s both;
+    }
 
-/* ── PRIVACY STRIP ───────────────────────────────────────────── */
-.privacy-strip {
-  background: var(--ink); color: var(--paper);
-  padding: 80px 80px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
-}
-.privacy-heading {
-  font-family: var(--serif); font-size: clamp(36px, 4vw, 54px);
-  font-weight: 300; line-height: 1.1; letter-spacing: -0.02em;
-}
-.privacy-heading em { font-style: italic; color: rgba(196,96,58,0.85); }
-.privacy-points { display: flex; flex-direction: column; gap: 20px; }
-.privacy-point { display: flex; gap: 16px; align-items: flex-start; }
-.privacy-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--warm); flex-shrink: 0; margin-top: 8px;
-}
-.privacy-point-text { font-family: var(--serif); font-size: 18px; font-weight: 300; color: rgba(250,248,245,0.7); line-height: 1.5; }
+    .hero-heading em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--warm);
+    }
 
-/* ── CTA ─────────────────────────────────────────────────────── */
-#cta {
-  padding: 140px 80px;
-  text-align: center;
-  position: relative; overflow: hidden;
-}
-.cta-grain {
-  position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
-#cta > * { position: relative; z-index: 1; }
-.cta-label {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--warm); margin-bottom: 24px;
-  display: block;
-}
-.cta-heading {
-  font-family: var(--serif); font-size: clamp(44px, 6vw, 80px);
-  font-weight: 300; line-height: 1.0; letter-spacing: -0.025em; color: var(--ink);
-  margin-bottom: 28px;
-}
-.cta-heading em { font-style: italic; color: var(--warm); }
-.cta-sub {
-  font-family: var(--serif); font-size: 20px; font-weight: 300;
-  color: var(--ink3); max-width: 480px; margin: 0 auto 52px; line-height: 1.6;
-}
-.cta-actions { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .hero-heading .line2 {
+      padding-left: 48px;
+    }
 
-/* ── FOOTER ──────────────────────────────────────────────────── */
-footer {
-  border-top: 1px solid var(--rule);
-  padding: 36px 80px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
-}
-.footer-wordmark { font-family: var(--serif); font-size: 17px; color: var(--ink3); }
-.footer-wordmark em { font-style: italic; color: var(--warm); }
-.footer-links { display: flex; gap: 28px; }
-.footer-links a {
-  font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--ink4); text-decoration: none; transition: color 0.2s;
-}
-.footer-links a:hover { color: var(--ink); }
-.footer-copy { font-size: 12px; color: var(--ink4); }
+    .hero-desc {
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--ink3);
+      max-width: 440px;
+      margin-bottom: 48px;
+      animation: fadeUp 0.9s ease 0.2s both;
+    }
 
-/* ── MODAL ───────────────────────────────────────────────────── */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 999;
-  background: rgba(26,24,20,0.55);
-  backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.3s;
-}
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal {
-  background: var(--paper); border: 1px solid var(--rule);
-  border-radius: 4px; padding: 52px 52px 44px;
-  width: 100%; max-width: 440px; text-align: center;
-  transform: translateY(20px); transition: transform 0.35s ease;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.15);
-}
-.modal-overlay.open .modal { transform: translateY(0); }
-.modal-badge {
-  display: inline-block; margin-bottom: 28px;
-  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--warm);
-  padding: 5px 14px; border: 1px solid var(--warm-b);
-  background: var(--warm-dim); border-radius: 20px;
-}
-.modal-title {
-  font-family: var(--serif); font-size: 36px; font-weight: 300;
-  letter-spacing: -0.02em; color: var(--ink); margin-bottom: 16px; line-height: 1.1;
-}
-.modal-title em { font-style: italic; color: var(--warm); }
-.modal-body {
-  font-family: var(--serif); font-size: 17px; font-weight: 300;
-  color: var(--ink3); line-height: 1.65; margin-bottom: 36px;
-}
-.modal-rule { width: 40px; height: 1px; background: var(--rule); margin: 0 auto 24px; }
-.modal-credit {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--ink4); margin-bottom: 4px;
-}
-.modal-creator {
-  font-family: var(--serif); font-size: 17px; color: var(--ink);
-}
-.modal-creator a { color: var(--warm); text-decoration: none; }
-.modal-creator a:hover { text-decoration: underline; }
-.modal-close {
-  margin-top: 32px; display: block; width: 100%;
-  padding: 13px; background: none; border: 1px solid var(--rule);
-  border-radius: 2px; font-family: var(--sans); font-size: 11px;
-  font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink3); cursor: pointer; transition: all 0.2s;
-}
-.modal-close:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      animation: fadeUp 0.9s ease 0.3s both;
+    }
 
-/* ── ANIMATIONS ──────────────────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes slideMsg {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes cursorBlink {
-  0%,100% { opacity: 1; } 50% { opacity: 0; }
-}
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 14px 32px;
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s;
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      font-family: var(--sans);
+    }
 
-.reveal {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-d1 { transition-delay: 0.1s; }
-.reveal-d2 { transition-delay: 0.2s; }
-.reveal-d3 { transition-delay: 0.3s; }
+    .btn-primary:hover {
+      background: var(--warm);
+      border-color: var(--warm);
+    }
 
-/* ── RESPONSIVE ──────────────────────────────────────────────── */
-@media (max-width: 960px) {
-  nav { padding: 0 24px; }
-  .nav-links { display: none; }
-  #hero { grid-template-columns: 1fr; }
-  .hero-left { padding: 80px 24px 0; }
-  .hero-right { height: 420px; padding: 24px; }
-  .modes-header { grid-template-columns: 1fr; gap: 20px; }
-  .modes-grid { grid-template-columns: 1fr 1fr; }
-  #modes, #how, #tech, #cta { padding: 80px 24px; }
-  .privacy-strip { grid-template-columns: 1fr; padding: 64px 24px; }
-  .tech-grid { grid-template-columns: 1fr 1fr; }
-  footer { padding: 32px 24px; }
-}
-@media (max-width: 600px) {
-  .modes-grid { grid-template-columns: 1fr; }
-  .tech-grid { grid-template-columns: 1fr; }
-  .divider-row { flex-direction: column; }
-  .divider-stat { border-right: none; border-bottom: 1px solid var(--rule); width: 100%; }
-  .cta-actions { flex-direction: column; }
-  .hero-heading .line2 { padding-left: 0; }
-}
-</style>
+    .btn-ghost-link {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .btn-ghost-link:hover {
+      color: var(--ink);
+    }
+
+    .btn-ghost-link::after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+      transition: width 0.25s;
+    }
+
+    .btn-ghost-link:hover::after {
+      width: 32px;
+    }
+
+    /* ── HERO VISUAL ─────────────────────────────────────────────── */
+    .hero-right {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 48px 80px 24px;
+      animation: fadeIn 1.2s ease 0.4s both;
+    }
+
+    .chat-mockup {
+      width: 100%;
+      max-width: 380px;
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03), 0 20px 60px rgba(0, 0, 0, 0.08), 0 40px 100px rgba(0, 0, 0, 0.05);
+      position: relative;
+      z-index: 2;
+    }
+
+    .chat-topbar {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--rule2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--paper);
+    }
+
+    .chat-mode-badge {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      background: var(--warm-dim);
+      color: var(--warm);
+      border: 1px solid var(--warm-b);
+      border-radius: 20px;
+    }
+
+    .chat-mode-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      flex: 1;
+    }
+
+    .chat-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 78%;
+      animation: slideMsg 0.5s ease both;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .msg.ai {
+      align-self: flex-start;
+    }
+
+    .msg-bubble {
+      padding: 11px 15px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .msg.ai .msg-bubble {
+      background: var(--cream);
+      color: var(--ink);
+      border-radius: 4px 16px 16px 16px;
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--ink);
+      color: var(--paper);
+      border-radius: 16px 4px 16px 16px;
+    }
+
+    .msg-time {
+      font-size: 10px;
+      color: var(--ink4);
+      margin-top: 4px;
+    }
+
+    .chat-input-bar {
+      padding: 14px 16px;
+      border-top: 1px solid var(--rule2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-input-fake {
+      flex: 1;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 12px;
+      color: var(--ink4);
+    }
+
+    .chat-send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-send-btn svg {
+      stroke: var(--paper);
+    }
+
+    /* floating accents behind mockup */
+    .hero-accent-1 {
+      position: absolute;
+      top: 15%;
+      right: 0;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196, 96, 58, 0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-accent-2 {
+      position: absolute;
+      bottom: 20%;
+      left: -40px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196, 96, 58, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-bg-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--serif);
+      font-size: 320px;
+      font-weight: 300;
+      color: rgba(26, 24, 20, 0.022);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    /* ── DIVIDER ─────────────────────────────────────────────────── */
+    .divider-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      overflow: hidden;
+    }
+
+    .divider-stat {
+      flex: 1;
+      padding: 28px 0;
+      text-align: center;
+      border-right: 1px solid var(--rule);
+    }
+
+    .divider-stat:last-child {
+      border-right: none;
+    }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      display: block;
+      line-height: 1;
+    }
+
+    .stat-num em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-top: 6px;
+    }
+
+    /* ── MODES ───────────────────────────────────────────────────── */
+    #modes {
+      padding: 120px 80px;
+    }
+
+    .modes-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 72px;
+    }
+
+    .modes-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 16px;
+    }
+
+    .modes-title {
+      font-family: var(--serif);
+      font-size: clamp(38px, 4vw, 58px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .modes-title em {
+      font-style: italic;
+      color: var(--ink3);
+    }
+
+    .modes-desc {
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 300;
+      color: var(--ink3);
+      line-height: 1.65;
+      align-self: center;
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    .mode-card {
+      background: var(--paper);
+      padding: 40px 32px;
+      transition: background 0.25s;
+      cursor: default;
+    }
+
+    .mode-card:hover {
+      background: var(--white);
+    }
+
+    .mode-index {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink4);
+      margin-bottom: 24px;
+      letter-spacing: 0.06em;
+    }
+
+    .mode-name {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .mode-desc {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .mode-sample {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: var(--cream);
+      border-radius: 8px;
+      font-family: var(--serif);
+      font-size: 15px;
+      font-style: italic;
+      color: var(--ink2);
+      line-height: 1.5;
+      border-left: 2px solid var(--warm);
+    }
+
+    /* ── HOW IT WORKS ────────────────────────────────────────────── */
+    #how {
+      padding: 120px 80px;
+      background: var(--cream);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .how-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .how-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 80px;
+    }
+
+    .how-title {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .how-title em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .how-note {
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--ink3);
+      max-width: 320px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    .how-steps {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .how-step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0;
+      padding: 32px 0;
+      border-top: 1px solid var(--rule);
+      align-items: start;
+    }
+
+    .how-step:last-child {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .step-n {
+      font-family: var(--serif);
+      font-size: 48px;
+      font-weight: 300;
+      color: rgba(26, 24, 20, 0.12);
+      line-height: 1;
+      padding-top: 4px;
+    }
+
+    .step-body {
+      padding: 4px 0 4px 32px;
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--ink3);
+      line-height: 1.6;
+    }
+
+    .step-tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--warm);
+      background: var(--warm-dim);
+      border: 1px solid var(--warm-b);
+      border-radius: 3px;
+      padding: 2px 8px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── TECH STACK ──────────────────────────────────────────────── */
+    #tech {
+      padding: 120px 80px;
+    }
+
+    .tech-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .tech-header {
+      margin-bottom: 64px;
+    }
+
+    .tech-header-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .tech-title {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .tech-title em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .tech-subtitle {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--ink3);
+      max-width: 380px;
+      text-align: right;
+    }
+
+    .tech-rule {
+      width: 100%;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--rule);
+      margin-top: 40px;
+    }
+
+    .tech-card {
+      padding: 36px 32px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.2s;
+    }
+
+    .tech-card:hover {
+      background: var(--cream);
+    }
+
+    .tech-card:nth-child(3n) {
+      border-right: none;
+    }
+
+    .tech-card:nth-last-child(-n+3) {
+      border-bottom: none;
+    }
+
+    .tech-card-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-bottom: 12px;
+    }
+
+    .tech-card-name {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .tech-card-desc {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.6;
+    }
+
+    .tech-card-tag {
+      margin-top: 14px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink4);
+      display: block;
+    }
+
+    /* ── PRIVACY STRIP ───────────────────────────────────────────── */
+    .privacy-strip {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 80px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .privacy-heading {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 54px);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .privacy-heading em {
+      font-style: italic;
+      color: rgba(196, 96, 58, 0.85);
+    }
+
+    .privacy-points {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .privacy-point {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .privacy-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--warm);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    .privacy-point-text {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(250, 248, 245, 0.7);
+      line-height: 1.5;
+    }
+
+    /* ── CTA ─────────────────────────────────────────────────────── */
+    #cta {
+      padding: 140px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-grain {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    #cta>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .cta-heading {
+      font-family: var(--serif);
+      font-size: clamp(44px, 6vw, 80px);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+
+    .cta-heading em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .cta-sub {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 300;
+      color: var(--ink3);
+      max-width: 480px;
+      margin: 0 auto 52px;
+      line-height: 1.6;
+    }
+
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 36px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-wordmark {
+      font-family: var(--serif);
+      font-size: 17px;
+      color: var(--ink3);
+    }
+
+    .footer-wordmark em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--ink);
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--ink4);
+    }
+
+    /* ── MODAL ───────────────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(26, 24, 20, 0.55);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 52px 52px 44px;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+      transform: translateY(20px);
+      transition: transform 0.35s ease;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-badge {
+      display: inline-block;
+      margin-bottom: 28px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--warm);
+      padding: 5px 14px;
+      border: 1px solid var(--warm-b);
+      background: var(--warm-dim);
+      border-radius: 20px;
+    }
+
+    .modal-title {
+      font-family: var(--serif);
+      font-size: 36px;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .modal-title em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    .modal-body {
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--ink3);
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    .modal-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--rule);
+      margin: 0 auto 24px;
+    }
+
+    .modal-credit {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-bottom: 4px;
+    }
+
+    .modal-creator {
+      font-family: var(--serif);
+      font-size: 17px;
+      color: var(--ink);
+    }
+
+    .modal-creator a {
+      color: var(--warm);
+      text-decoration: none;
+    }
+
+    .modal-creator a:hover {
+      text-decoration: underline;
+    }
+
+    .modal-close {
+      margin-top: 32px;
+      display: block;
+      width: 100%;
+      padding: 13px;
+      background: none;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideMsg {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cursorBlink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-d1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-d2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-d3 {
+      transition-delay: 0.3s;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      nav {
+        padding: 0 24px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      #hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left {
+        padding: 80px 24px 0;
+      }
+
+      .hero-right {
+        height: 420px;
+        padding: 24px;
+      }
+
+      .modes-header {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .modes-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #modes,
+      #how,
+      #tech,
+      #cta {
+        padding: 80px 24px;
+      }
+
+      .privacy-strip {
+        grid-template-columns: 1fr;
+        padding: 64px 24px;
+      }
+
+      .tech-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      footer {
+        padding: 32px 24px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .modes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tech-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .divider-row {
+        flex-direction: column;
+      }
+
+      .divider-stat {
+        border-right: none;
+        border-bottom: 1px solid var(--rule);
+        width: 100%;
+      }
+
+      .cta-actions {
+        flex-direction: column;
+      }
+
+      .hero-heading .line2 {
+        padding-left: 0;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-wordmark">MoodMate <span>AI</span></a>
-  <ul class="nav-links">
-    <li><a href="#modes">Modes</a></li>
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#tech">Stack</a></li>
-    <li><a href="https://portfolio-tau-weld-jl3dhwutqh.vercel.app/" target="_blank">Creator</a></li>
-  </ul>
-  <button class="nav-visit" onclick="openModal()">Visit Project</button>
-</nav>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-wordmark">MoodMate <span>AI</span></a>
+    <ul class="nav-links">
+      <li><a href="#modes">Modes</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#tech">Stack</a></li>
+      <li><a href="https://portfolio-tau-weld-jl3dhwutqh.vercel.app/" target="_blank">Creator</a></li>
+    </ul>
+    <a href="https://mood-mate-pi.vercel.app/" target="_blank">
+      <button class="btn-primary">Visit Project</button>
+    </a>
+  </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-left">
-    <div class="hero-kicker">
-      <div class="kicker-line"></div>
-      <span class="kicker-text">Emotionally Intelligent AI</span>
-    </div>
-
-    <h1 class="hero-heading">
-      Honest.<br>
-      <span class="line2"><em>Human.</em></span><br>
-      Present.
-    </h1>
-
-    <p class="hero-desc">
-      An AI companion that adapts to how you actually feel — not what you want to hear.
-      Four distinct voices, entirely on-device, completely private.
-    </p>
-
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="openModal()">
-        Try MoodMate
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <a href="#modes" class="btn-ghost-link">Explore modes</a>
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="hero-accent-1"></div>
-    <div class="hero-accent-2"></div>
-    <div class="hero-bg-number">M</div>
-
-    <div class="chat-mockup">
-      <div class="chat-topbar">
-        <div class="chat-mode-badge">Brutally Honest</div>
-        <div style="flex:1"></div>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="opacity:0.3">
-          <circle cx="7" cy="7" r="6" stroke="#1a1814" stroke-width="1.2"/>
-          <path d="M7 4v3l2 2" stroke="#1a1814" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-kicker">
+        <div class="kicker-line"></div>
+        <span class="kicker-text">Emotionally Intelligent AI</span>
       </div>
-      <div class="chat-body">
-        <div class="msg user" style="animation-delay:0.6s">
-          <div class="msg-bubble">I think I'm doing pretty well at work lately.</div>
-          <div class="msg-time">09:41</div>
-        </div>
-        <div class="msg ai" style="animation-delay:0.9s">
-          <div class="msg-bubble">You've said that every week for a month. Maybe define "well" with some actual metrics.</div>
-          <div class="msg-time">09:41</div>
-        </div>
-        <div class="msg user" style="animation-delay:1.2s">
-          <div class="msg-bubble">Fair point. I'll think about it.</div>
-          <div class="msg-time">09:42</div>
-        </div>
-        <div class="msg ai" style="animation-delay:1.5s">
-          <div class="msg-bubble">That's more progress than you think. Awareness beats delusion.</div>
-          <div class="msg-time">09:42</div>
-        </div>
-      </div>
-      <div class="chat-input-bar">
-        <div class="chat-input-fake">Type something...</div>
-        <div class="chat-send-btn">
+
+      <h1 class="hero-heading">
+        Honest.<br>
+        <span class="line2"><em>Human.</em></span><br>
+        Present.
+      </h1>
+
+      <p class="hero-desc">
+        An AI companion that adapts to how you actually feel — not what you want to hear.
+        Four distinct voices, entirely on-device, completely private.
+      </p>
+
+      <div class="hero-actions">
+        <a href="https://mood-mate-pi.vercel.app/" target="_blank">
+      <button class="btn-primary">Try MoodMate</button>
+    </a>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+        <a href="#modes" class="btn-ghost-link">Explore modes</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-accent-1"></div>
+      <div class="hero-accent-2"></div>
+      <div class="hero-bg-number">M</div>
+
+      <div class="chat-mockup">
+        <div class="chat-topbar">
+          <div class="chat-mode-badge">Brutally Honest</div>
+          <div style="flex:1"></div>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="opacity:0.3">
+            <circle cx="7" cy="7" r="6" stroke="#1a1814" stroke-width="1.2" />
+            <path d="M7 4v3l2 2" stroke="#1a1814" stroke-width="1.2" stroke-linecap="round" />
           </svg>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STAT STRIP -->
-<div class="divider-row">
-  <div class="divider-stat reveal">
-    <span class="stat-num">4</span>
-    <span class="stat-label">Conversation modes</span>
-  </div>
-  <div class="divider-stat reveal reveal-d1">
-    <span class="stat-num"><em>0</em></span>
-    <span class="stat-label">Cloud dependencies</span>
-  </div>
-  <div class="divider-stat reveal reveal-d2">
-    <span class="stat-num">100%</span>
-    <span class="stat-label">Local and private</span>
-  </div>
-  <div class="divider-stat reveal reveal-d3">
-    <span class="stat-num"><em>LLaMA</em> 3</span>
-    <span class="stat-label">Powered by</span>
-  </div>
-</div>
-
-<!-- MODES -->
-<section id="modes">
-  <div class="modes-header reveal">
-    <div>
-      <p class="modes-label">Conversation Modes</p>
-      <h2 class="modes-title">Four voices.<br><em>One truth.</em></h2>
-    </div>
-    <p class="modes-desc">
-      Different moments call for different kinds of honesty.
-      Switch modes whenever the conversation demands it.
-    </p>
-  </div>
-
-  <div class="modes-grid">
-    <div class="mode-card reveal">
-      <div class="mode-index">01 / 04</div>
-      <div class="mode-name">Sarcastic</div>
-      <div class="mode-desc">Wit with a point. Cutting remarks that still carry care underneath.</div>
-      <div class="mode-sample">"Sure, because ignoring it always works out brilliantly."</div>
-    </div>
-    <div class="mode-card reveal reveal-d1">
-      <div class="mode-index">02 / 04</div>
-      <div class="mode-name">Brutally Honest</div>
-      <div class="mode-desc">No softening, no flattery. Just a clear reflection of what is.</div>
-      <div class="mode-sample">"That plan has three obvious failure points. Want to name them?"</div>
-    </div>
-    <div class="mode-card reveal reveal-d2">
-      <div class="mode-index">03 / 04</div>
-      <div class="mode-name">Supportive</div>
-      <div class="mode-desc">Warm, present, non-judgmental. For the days when you just need to be heard.</div>
-      <div class="mode-sample">"That sounds really hard. You're handling more than most people realise."</div>
-    </div>
-    <div class="mode-card reveal reveal-d3">
-      <div class="mode-index">04 / 04</div>
-      <div class="mode-name">Neutral</div>
-      <div class="mode-desc">Clean, factual, unfiltered. Pure signal with no emotional overlay.</div>
-      <div class="mode-sample">"Based on what you've described, here are three possible interpretations."</div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section id="how">
-  <div class="how-inner">
-    <div class="how-top reveal">
-      <h2 class="how-title">How it<br><em>works.</em></h2>
-      <p class="how-note">Everything runs on your machine. Nothing leaves your device.</p>
-    </div>
-    <div class="how-steps">
-      <div class="how-step reveal">
-        <div class="step-n">1</div>
-        <div class="step-body">
-          <div class="step-title">You choose the mode</div>
-          <p class="step-desc">Pick the conversational voice that fits the moment — sarcastic, honest, supportive, or neutral. Switch at any time without losing context.</p>
-          <span class="step-tag">React frontend</span>
+        <div class="chat-body">
+          <div class="msg user" style="animation-delay:0.6s">
+            <div class="msg-bubble">I think I'm doing pretty well at work lately.</div>
+            <div class="msg-time">09:41</div>
+          </div>
+          <div class="msg ai" style="animation-delay:0.9s">
+            <div class="msg-bubble">You've said that every week for a month. Maybe define "well" with some actual
+              metrics.</div>
+            <div class="msg-time">09:41</div>
+          </div>
+          <div class="msg user" style="animation-delay:1.2s">
+            <div class="msg-bubble">Fair point. I'll think about it.</div>
+            <div class="msg-time">09:42</div>
+          </div>
+          <div class="msg ai" style="animation-delay:1.5s">
+            <div class="msg-bubble">That's more progress than you think. Awareness beats delusion.</div>
+            <div class="msg-time">09:42</div>
+          </div>
         </div>
-      </div>
-      <div class="how-step reveal">
-        <div class="step-n">2</div>
-        <div class="step-body">
-          <div class="step-title">Flask routes your message</div>
-          <p class="step-desc">Your message is sent to the Python Flask backend with a mode-specific system prompt. No external API calls — the request stays entirely local.</p>
-          <span class="step-tag">Python + Flask</span>
-        </div>
-      </div>
-      <div class="how-step reveal">
-        <div class="step-n">3</div>
-        <div class="step-body">
-          <div class="step-title">LLaMA 3 generates the response</div>
-          <p class="step-desc">Ollama runs LLaMA 3 directly on your machine. The model produces a response conditioned on the active personality prompt and your conversation history.</p>
-          <span class="step-tag">LLaMA 3 via Ollama</span>
-        </div>
-      </div>
-      <div class="how-step reveal">
-        <div class="step-n">4</div>
-        <div class="step-body">
-          <div class="step-title">History is stored locally</div>
-          <p class="step-desc">Every conversation is persisted in a local SQLite database. Browse and revisit past chats from the sidebar — no account, no sync, no cloud.</p>
-          <span class="step-tag">SQLite</span>
+        <div class="chat-input-bar">
+          <div class="chat-input-fake">Type something...</div>
+          <div class="chat-send-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- TECH STACK -->
-<section id="tech">
-  <div class="tech-inner">
-    <div class="tech-header reveal">
-      <div class="tech-header-top">
-        <h2 class="tech-title">Built on<br><em>proven tools.</em></h2>
-        <p class="tech-subtitle">No overcomplicated infra. Just a clean stack that does exactly what it needs to.</p>
-      </div>
-      <div class="tech-rule"></div>
+  <!-- STAT STRIP -->
+  <div class="divider-row">
+    <div class="divider-stat reveal">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Conversation modes</span>
     </div>
-    <div class="tech-grid">
-      <div class="tech-card reveal">
-        <div class="tech-card-label">Frontend</div>
-        <div class="tech-card-name">React</div>
-        <div class="tech-card-desc">Component-driven UI with React Router for sidebar navigation and multi-page layout.</div>
-        <span class="tech-card-tag">react · react-router · css-modules</span>
-      </div>
-      <div class="tech-card reveal reveal-d1">
-        <div class="tech-card-label">Backend</div>
-        <div class="tech-card-name">Flask</div>
-        <div class="tech-card-desc">Lightweight Python server handling API routes, CORS, and request routing to the AI layer.</div>
-        <span class="tech-card-tag">python · flask · flask-sqlalchemy</span>
-      </div>
-      <div class="tech-card reveal reveal-d2">
-        <div class="tech-card-label">AI Runtime</div>
-        <div class="tech-card-name">Ollama</div>
-        <div class="tech-card-desc">Runs LLaMA 3 entirely on-device. No API keys, no rate limits, no latency from the cloud.</div>
-        <span class="tech-card-tag">ollama · llama3</span>
-      </div>
-      <div class="tech-card reveal">
-        <div class="tech-card-label">Database</div>
-        <div class="tech-card-name">SQLite</div>
-        <div class="tech-card-desc">File-based relational database. Zero configuration, persistent conversation history, ships with Python.</div>
-        <span class="tech-card-tag">sqlite · sqlalchemy orm</span>
-      </div>
-      <div class="tech-card reveal reveal-d1">
-        <div class="tech-card-label">Privacy model</div>
-        <div class="tech-card-name">Local-first</div>
-        <div class="tech-card-desc">All data stays on your machine. No telemetry, no accounts, no external servers at any layer.</div>
-        <span class="tech-card-tag">offline · no-cloud · private</span>
-      </div>
-      <div class="tech-card reveal reveal-d2">
-        <div class="tech-card-label">Distribution</div>
-        <div class="tech-card-name">Open Source</div>
-        <div class="tech-card-desc">MIT licensed. Fork it, adapt it, run it. The full source is on GitHub with setup documentation.</div>
-        <span class="tech-card-tag">mit license · github</span>
-      </div>
+    <div class="divider-stat reveal reveal-d1">
+      <span class="stat-num"><em>0</em></span>
+      <span class="stat-label">Cloud dependencies</span>
+    </div>
+    <div class="divider-stat reveal reveal-d2">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Local and private</span>
+    </div>
+    <div class="divider-stat reveal reveal-d3">
+      <span class="stat-num"><em>LLaMA</em> 3</span>
+      <span class="stat-label">Powered by</span>
     </div>
   </div>
-</section>
 
-<!-- PRIVACY -->
-<div class="privacy-strip">
-  <div class="reveal">
-    <h2 class="privacy-heading">
-      Your words<br>
-      stay <em>yours.</em><br>
-      Always.
+  <!-- MODES -->
+  <section id="modes">
+    <div class="modes-header reveal">
+      <div>
+        <p class="modes-label">Conversation Modes</p>
+        <h2 class="modes-title">Four voices.<br><em>One truth.</em></h2>
+      </div>
+      <p class="modes-desc">
+        Different moments call for different kinds of honesty.
+        Switch modes whenever the conversation demands it.
+      </p>
+    </div>
+
+    <div class="modes-grid">
+      <div class="mode-card reveal">
+        <div class="mode-index">01 / 04</div>
+        <div class="mode-name">Sarcastic</div>
+        <div class="mode-desc">Wit with a point. Cutting remarks that still carry care underneath.</div>
+        <div class="mode-sample">"Sure, because ignoring it always works out brilliantly."</div>
+      </div>
+      <div class="mode-card reveal reveal-d1">
+        <div class="mode-index">02 / 04</div>
+        <div class="mode-name">Brutally Honest</div>
+        <div class="mode-desc">No softening, no flattery. Just a clear reflection of what is.</div>
+        <div class="mode-sample">"That plan has three obvious failure points. Want to name them?"</div>
+      </div>
+      <div class="mode-card reveal reveal-d2">
+        <div class="mode-index">03 / 04</div>
+        <div class="mode-name">Supportive</div>
+        <div class="mode-desc">Warm, present, non-judgmental. For the days when you just need to be heard.</div>
+        <div class="mode-sample">"That sounds really hard. You're handling more than most people realise."</div>
+      </div>
+      <div class="mode-card reveal reveal-d3">
+        <div class="mode-index">04 / 04</div>
+        <div class="mode-name">Neutral</div>
+        <div class="mode-desc">Clean, factual, unfiltered. Pure signal with no emotional overlay.</div>
+        <div class="mode-sample">"Based on what you've described, here are three possible interpretations."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="how-inner">
+      <div class="how-top reveal">
+        <h2 class="how-title">How it<br><em>works.</em></h2>
+        <p class="how-note">Everything runs on your machine. Nothing leaves your device.</p>
+      </div>
+      <div class="how-steps">
+        <div class="how-step reveal">
+          <div class="step-n">1</div>
+          <div class="step-body">
+            <div class="step-title">You choose the mode</div>
+            <p class="step-desc">Pick the conversational voice that fits the moment — sarcastic, honest, supportive, or
+              neutral. Switch at any time without losing context.</p>
+            <span class="step-tag">React frontend</span>
+          </div>
+        </div>
+        <div class="how-step reveal">
+          <div class="step-n">2</div>
+          <div class="step-body">
+            <div class="step-title">Flask routes your message</div>
+            <p class="step-desc">Your message is sent to the Python Flask backend with a mode-specific system prompt. No
+              external API calls — the request stays entirely local.</p>
+            <span class="step-tag">Python + Flask</span>
+          </div>
+        </div>
+        <div class="how-step reveal">
+          <div class="step-n">3</div>
+          <div class="step-body">
+            <div class="step-title">LLaMA 3 generates the response</div>
+            <p class="step-desc">Ollama runs LLaMA 3 directly on your machine. The model produces a response conditioned
+              on the active personality prompt and your conversation history.</p>
+            <span class="step-tag">LLaMA 3 via Ollama</span>
+          </div>
+        </div>
+        <div class="how-step reveal">
+          <div class="step-n">4</div>
+          <div class="step-body">
+            <div class="step-title">History is stored locally</div>
+            <p class="step-desc">Every conversation is persisted in a local SQLite database. Browse and revisit past
+              chats from the sidebar — no account, no sync, no cloud.</p>
+            <span class="step-tag">SQLite</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="tech">
+    <div class="tech-inner">
+      <div class="tech-header reveal">
+        <div class="tech-header-top">
+          <h2 class="tech-title">Built on<br><em>proven tools.</em></h2>
+          <p class="tech-subtitle">No overcomplicated infra. Just a clean stack that does exactly what it needs to.</p>
+        </div>
+        <div class="tech-rule"></div>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-card reveal">
+          <div class="tech-card-label">Frontend</div>
+          <div class="tech-card-name">React</div>
+          <div class="tech-card-desc">Component-driven UI with React Router for sidebar navigation and multi-page
+            layout.</div>
+          <span class="tech-card-tag">react · react-router · css-modules</span>
+        </div>
+        <div class="tech-card reveal reveal-d1">
+          <div class="tech-card-label">Backend</div>
+          <div class="tech-card-name">Flask</div>
+          <div class="tech-card-desc">Lightweight Python server handling API routes, CORS, and request routing to the AI
+            layer.</div>
+          <span class="tech-card-tag">python · flask · flask-sqlalchemy</span>
+        </div>
+        <div class="tech-card reveal reveal-d2">
+          <div class="tech-card-label">AI Runtime</div>
+          <div class="tech-card-name">Ollama</div>
+          <div class="tech-card-desc">Runs LLaMA 3 entirely on-device. No API keys, no rate limits, no latency from the
+            cloud.</div>
+          <span class="tech-card-tag">ollama · llama3</span>
+        </div>
+        <div class="tech-card reveal">
+          <div class="tech-card-label">Database</div>
+          <div class="tech-card-name">SQLite</div>
+          <div class="tech-card-desc">File-based relational database. Zero configuration, persistent conversation
+            history, ships with Python.</div>
+          <span class="tech-card-tag">sqlite · sqlalchemy orm</span>
+        </div>
+        <div class="tech-card reveal reveal-d1">
+          <div class="tech-card-label">Privacy model</div>
+          <div class="tech-card-name">Local-first</div>
+          <div class="tech-card-desc">All data stays on your machine. No telemetry, no accounts, no external servers at
+            any layer.</div>
+          <span class="tech-card-tag">offline · no-cloud · private</span>
+        </div>
+        <div class="tech-card reveal reveal-d2">
+          <div class="tech-card-label">Distribution</div>
+          <div class="tech-card-name">Open Source</div>
+          <div class="tech-card-desc">MIT licensed. Fork it, adapt it, run it. The full source is on GitHub with setup
+            documentation.</div>
+          <span class="tech-card-tag">mit license · github</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <div class="privacy-strip">
+    <div class="reveal">
+      <h2 class="privacy-heading">
+        Your words<br>
+        stay <em>yours.</em><br>
+        Always.
+      </h2>
+    </div>
+    <div class="privacy-points">
+      <div class="privacy-point reveal">
+        <div class="privacy-dot"></div>
+        <p class="privacy-point-text">LLaMA 3 runs entirely on your hardware via Ollama. No request ever leaves your
+          machine.</p>
+      </div>
+      <div class="privacy-point reveal reveal-d1">
+        <div class="privacy-dot"></div>
+        <p class="privacy-point-text">Conversation history is stored in a local SQLite file. No sync, no backup, no
+          account required.</p>
+      </div>
+      <div class="privacy-point reveal reveal-d2">
+        <div class="privacy-dot"></div>
+        <p class="privacy-point-text">No analytics, no telemetry, no trackers. The codebase is fully open source and
+          auditable.</p>
+      </div>
+      <div class="privacy-point reveal reveal-d3">
+        <div class="privacy-dot"></div>
+        <p class="privacy-point-text">Delete everything by removing a single file. No deactivation flows, no data
+          retention windows.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-grain"></div>
+    <span class="cta-label">Open Source</span>
+    <h2 class="cta-heading reveal">
+      Start a real<br>
+      <em>conversation.</em>
     </h2>
-  </div>
-  <div class="privacy-points">
-    <div class="privacy-point reveal">
-      <div class="privacy-dot"></div>
-      <p class="privacy-point-text">LLaMA 3 runs entirely on your hardware via Ollama. No request ever leaves your machine.</p>
-    </div>
-    <div class="privacy-point reveal reveal-d1">
-      <div class="privacy-dot"></div>
-      <p class="privacy-point-text">Conversation history is stored in a local SQLite file. No sync, no backup, no account required.</p>
-    </div>
-    <div class="privacy-point reveal reveal-d2">
-      <div class="privacy-dot"></div>
-      <p class="privacy-point-text">No analytics, no telemetry, no trackers. The codebase is fully open source and auditable.</p>
-    </div>
-    <div class="privacy-point reveal reveal-d3">
-      <div class="privacy-dot"></div>
-      <p class="privacy-point-text">Delete everything by removing a single file. No deactivation flows, no data retention windows.</p>
-    </div>
-  </div>
-</div>
-
-<!-- CTA -->
-<section id="cta">
-  <div class="cta-grain"></div>
-  <span class="cta-label">Open Source</span>
-  <h2 class="cta-heading reveal">
-    Start a real<br>
-    <em>conversation.</em>
-  </h2>
-  <p class="cta-sub reveal">
-    Clone the repo, run two commands, and have an honest AI companion running locally in minutes.
-  </p>
-  <div class="cta-actions reveal">
-    <button class="btn-primary" onclick="openModal()">
-      Visit MoodMate
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <a href="https://portfolio-tau-weld-jl3dhwutqh.vercel.app/" target="_blank" class="btn-ghost-link">
-      Creator's portfolio
-    </a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <span class="footer-wordmark">MoodMate <em>AI</em></span>
-  <div class="footer-links">
-    <a href="#modes">Modes</a>
-    <a href="#how">How it works</a>
-    <a href="#tech">Stack</a>
-    <a href="https://portfolio-tau-weld-jl3dhwutqh.vercel.app/" target="_blank">Creator</a>
-  </div>
-  <span class="footer-copy">Built by Sudhanshu Shukla &nbsp;·&nbsp; MIT License</span>
-</footer>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
-  <div class="modal">
-    <div class="modal-badge">Coming Soon</div>
-    <h2 class="modal-title">MoodMate <em>AI</em></h2>
-    <p class="modal-body">
-      The hosted version is on its way.<br>
-      For now, clone the repo and run it locally in under five minutes.
+    <p class="cta-sub reveal">
+      Clone the repo, run two commands, and have an honest AI companion running locally in minutes.
     </p>
-    <div class="modal-rule"></div>
-    <div class="modal-credit">Designed and developed by</div>
-    <div class="modal-creator">
-      <a href="https://portfolio-tau-weld-jl3dhwutqh.vercel.app/" target="_blank">Sudhanshu Shukla</a>
+    <div class="cta-actions reveal">
+      <a href="https://mood-mate-pi.vercel.app/" target="_blank" class="btn-primary">
+        Visit MoodMate
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </a>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+      <a href="https://portfolio-tau-weld-jl3dhwutqh.vercel.app/" target="_blank" class="btn-ghost-link">
+        Creator's portfolio
+      </a>
     </div>
-    <button class="modal-close" onclick="closeModal()">Close</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-wordmark">MoodMate <em>AI</em></span>
+    <div class="footer-links">
+      <a href="#modes">Modes</a>
+      <a href="#how">How it works</a>
+      <a href="#tech">Stack</a>
+      <a href="https://portfolio-tau-weld-jl3dhwutqh.vercel.app/" target="_blank">Creator</a>
+    </div>
+    <span class="footer-copy">Built by Sudhanshu Shukla &nbsp;·&nbsp; MIT License</span>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <div class="modal-badge">Coming Soon</div>
+      <h2 class="modal-title">MoodMate <em>AI</em></h2>
+      <p class="modal-body">
+        The hosted version is on its way.<br>
+        For now, clone the repo and run it locally in under five minutes.
+      </p>
+      <div class="modal-rule"></div>
+      <div class="modal-credit">Designed and developed by</div>
+      <div class="modal-creator">
+        <a href="https://portfolio-tau-weld-jl3dhwutqh.vercel.app/" target="_blank">Sudhanshu Shukla</a>
+      </div>
+      <button class="modal-close" onclick="closeModal()">Close</button>
+    </div>
   </div>
-</div>
 
-<script>
-// Modal
-function openModal() {
-  document.getElementById('modal').classList.add('open');
-}
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-}
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('modal')) closeModal();
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  <script>
+    // Modal
+    function openModal() {
+      document.getElementById('modal').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+    }
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modal')) closeModal();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// Scroll reveal
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
+
 </html>
